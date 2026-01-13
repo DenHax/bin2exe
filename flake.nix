@@ -17,11 +17,20 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
+        pythonScript = pkgs.writeTextFile {
+          name = "bin2exe.py";
+          text = ''
+            #!/usr/bin/env python3
+            ${builtins.readFile ./bin/bin2exe.py}
+          '';
+          executable = true;
+        };
+
         bin2exe = pkgs.writeShellApplication {
           name = "bin2exe";
           runtimeInputs = [ pkgs.python3 ];
           text = ''
-            exec ${pkgs.python3}/bin/python3 ${./bin/bin2exe.py} "$@"
+            exec ${pkgs.python3}/bin/python3 ${pythonScript} "$@"
           '';
         };
 

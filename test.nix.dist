@@ -9,6 +9,8 @@ with lib;
 
 let
   defaults = config.module.defaults;
+  screenshotScreen = "${pkgs.grim}/bin/grim -o $(swaymsg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.focused) | .name') - | ${pkgs.wl-clipboard}/bin/wl-copy";
+  audioControl = "${pkgs.pulseaudio}/bin/pactl";
 in
 {
   wayland.windowManager.hyprland.settings = {
@@ -33,6 +35,7 @@ in
       "$mainMod, N, exec, ${defaults.notificationsAppCmd}"
 
       "$mainMod, mouse_up,   workspace, e-1"
+
 
     ];
 
