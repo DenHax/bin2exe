@@ -1,0 +1,51 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+with lib;
+
+let
+  defaults = config.module.defaults;
+in
+{
+  wayland.windowManager.hyprland.settings = {
+    exec-once = [
+      # Clipboad init
+      "wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
+      "wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
+    ];
+
+    bind = [
+      "$shiftMod CONTROL, L, exec, ${pkgs.systemd}/bin/loginctl lock-session"
+      "$mainMod  CONTROL, P, exec, ${pkgs.systemd}/bin/systemctl suspend"
+
+      "$mainMod CONTROL, F5, exec, ${pkgs.hyprland}/bin/hyprctl switchxkblayout ${keyboard} 0"
+      "$mainMod CONTROL, F6, exec, ${pkgs.hyprland}/bin/hyprctl switchxkblayout ${keyboard} 1"
+
+      "$mainMod, Q, killactive,"
+      "$mainMod CONTROL, M, exit,"
+
+      ", xf86audioraisevolume, exec, ${defaults.audioControlCmd} set-sink-volume @DEFAULT_SINK@ +5%"
+
+      "$mainMod, N, exec, ${defaults.notificationsAppCmd}"
+
+      "$mainMod, mouse_up,   workspace, e-1"
+
+    ];
+
+    bindm = [
+      "$mainMod, mouse:272, movewindow"
+      "$mainMod, mouse:273, resizewindow"
+    ];
+
+    windowrulev2 = [
+      "dimaround, class:^(xdg-desktop-portal-gtk)$"
+
+      "center, title:^(File Upload)(.*)$"
+      "float, title:^(Open File)(.*)$"
+    ];
+  };
+}
