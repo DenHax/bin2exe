@@ -1,4 +1,4 @@
-# getExe-replacer
+# bin2exe
 
 Заменяет способ получения пути к пакету с прямого обращения через pkgs.<package>/bin/<command> на получение пути через функцию lib.getExe
 
