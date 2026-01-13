@@ -1,0 +1,10 @@
+.git
+.vscode
+.gitignore
+Makefile
+README.md
+
+flake.*
+.envrc
+.direnv
+.env.*
