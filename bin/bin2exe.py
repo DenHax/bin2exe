@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+import os
 import re
 import sys
-import os
 from pathlib import Path
 
 
@@ -9,7 +9,7 @@ def process_file(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
-    pattern = r"\$\{pkgs\.([^}]+)\}/bin/([^}\s]+)"
+    pattern = r'\$\{pkgs\.([\w-]+)\}/bin/([\w-]+)(?=[}"\'\s;\)\]\},]|$)'
 
     def replacement(match):
         pkg = match.group(1)
@@ -46,7 +46,7 @@ def main():
         if process_file(target):
             processed_count += 1
     else:
-        for root, dirs, files in os.walk(target):
+        for root, _, files in os.walk(target):
             for file in files:
                 if file.endswith(".nix"):
                     filepath = Path(root) / file
