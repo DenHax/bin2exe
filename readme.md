@@ -14,8 +14,16 @@ ${pkgs.systemd}/bin/systemctl => ${lib.getExe' pkgs.systemd "systemctl"}
 
 Использование:
 
+Python:
+
 ```sh
 python3 main.py <path>
+```
+
+nix:
+
+```sh
+nix run github:denhax/bin2exe -- <path>
 ```
 
 Path — путь до файла или директории. В случае директории заменяет файлы внутри рекурсивно
